@@ -1,0 +1,1579 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPIC Cognitive Speaking Trainer</title>
+<style>
+:root {
+  --navy:#192b46;
+  --blue:#456bd8;
+  --bg:#f4f6fa;
+  --text:#29364b;
+  --muted:#8792a3;
+  --line:#e7ebf1;
+  --green:#27866d;
+  --orange:#d99140;
+  --red:#c65a5a;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,"Segoe UI",sans-serif;
+}
+button,textarea,select {font:inherit}
+button {cursor:pointer}
+.app {max-width:1200px;margin:auto;padding:24px 20px 55px}
+header {
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:24px;
+}
+.logo {display:flex;align-items:center;gap:12px}
+.logo-icon {
+  width:44px;height:44px;background:var(--navy);
+  color:white;border-radius:12px;
+  display:grid;place-items:center;
+  font-size:21px;font-weight:bold;
+}
+.logo h1 {font-size:19px;color:var(--navy);margin:0}
+.logo p {font-size:10px;letter-spacing:1.5px;color:var(--muted);margin:4px 0}
+.level-badge {
+  background:#e9efff;color:var(--blue);
+  padding:9px 15px;border-radius:20px;
+  font-size:11px;font-weight:bold;
+}
+.hero {
+  background:var(--navy);color:white;
+  padding:25px 29px;border-radius:17px;
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:20px;
+}
+.hero h2 {font-size:25px;margin:0 0 8px}
+.hero p {font-size:13px;line-height:1.7;color:#c5d0df;margin:0}
+.hero-stat {text-align:center;min-width:90px}
+.hero-stat strong {font-size:29px;display:block}
+.hero-stat span {font-size:10px;color:#c5d0df}
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 290px;
+  gap:19px;
+}
+.panel {
+  background:white;border:1px solid var(--line);
+  border-radius:14px;padding:20px;margin-bottom:17px;
+  min-width:0;
+}
+.heading {
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;margin-bottom:17px;
+}
+.heading h3 {font-size:15px;margin:5px 0 0}
+.eyebrow {
+  color:var(--muted);font-size:10px;
+  letter-spacing:1.3px;font-weight:bold;
+}
+.small {font-size:11px;color:var(--muted);line-height:1.7}
+.topic-list {display:flex;flex-wrap:wrap;gap:8px}
+.topic-btn {
+  border:1px solid var(--line);background:white;
+  color:#657187;border-radius:20px;
+  padding:9px 14px;font-size:12px;
+}
+.topic-btn.active {background:var(--navy);color:white;border-color:var(--navy)}
+.photo-wrap {position:relative}
+.photo {
+  display:block;width:100%;height:320px;
+  object-fit:cover;border-radius:11px;
+  background:#e9edf3;
+}
+.photo-label {
+  position:absolute;bottom:13px;left:13px;
+  padding:8px 12px;border-radius:7px;
+  background:#ffffffed;color:var(--navy);
+  font-size:11px;font-weight:bold;
+}
+.question {
+  background:#f5f7fb;border-radius:10px;
+  padding:17px;margin-top:15px;
+}
+.question h3 {
+  font-size:17px;line-height:1.6;
+  margin:9px 0;color:var(--navy);
+}
+.question p {font-size:12px;color:var(--muted);line-height:1.7}
+.tags {display:flex;gap:7px;flex-wrap:wrap}
+.tag {
+  font-size:10px;background:#e9eef8;
+  color:#526784;padding:6px 9px;border-radius:5px;
+}
+.btn {
+  border:0;border-radius:8px;padding:11px 15px;
+  font-size:12px;font-weight:bold;
+}
+.primary {background:var(--blue);color:white}
+.dark {background:var(--navy);color:white}
+.light {background:#edf1f7;color:var(--navy)}
+.outline {background:white;border:1px solid var(--line);color:var(--text)}
+.btn:disabled {opacity:.4;cursor:not-allowed}
+.controls {display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.level-grid {
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+}
+.level-card {
+  text-align:left;border:1px solid var(--line);
+  background:white;border-radius:9px;padding:12px 9px;
+  color:var(--text);
+}
+.level-card.active {border:2px solid var(--blue);background:#f1f4ff}
+.level-card strong {display:block;font-size:12px;color:var(--navy)}
+.level-card span {font-size:10px;color:var(--muted);display:block;margin-top:5px}
+.level-card em {font-style:normal;font-size:10px;color:var(--blue);display:block;margin-top:7px}
+.level-description {
+  margin-top:12px;background:#f5f7fb;
+  padding:14px;border-radius:9px;
+}
+.level-description strong {font-size:12px;color:var(--navy)}
+.level-description p {font-size:11px;line-height:1.7;color:#647187;margin:7px 0 0}
+.variable-grid {display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.variable {
+  padding:12px;background:#f7f8fb;border-radius:9px;
+}
+.variable label {font-size:11px;font-weight:bold;display:block;margin-bottom:8px}
+.variable select {
+  width:100%;border:1px solid var(--line);
+  background:white;padding:9px;border-radius:7px;
+  font-size:11px;color:var(--text);
+}
+.variable small {display:block;font-size:10px;color:var(--muted);margin-top:7px;line-height:1.5}
+.timer-box {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;background:#f5f7fb;padding:16px;border-radius:10px;
+}
+.timer-box span {font-size:11px;color:var(--muted)}
+.timer-box strong {
+  display:block;font-size:28px;
+  color:var(--navy);margin-top:3px;
+  font-variant-numeric:tabular-nums;
+}
+.timer-actions {display:flex;gap:7px;flex-wrap:wrap}
+.timer-actions button {padding:9px 12px;font-size:11px}
+.mic-row {
+  display:flex;justify-content:space-between;
+  align-items:center;gap:9px;flex-wrap:wrap;
+  margin:15px 0;
+}
+.mic-status {font-size:11px;color:var(--muted)}
+.recording {color:var(--red);font-weight:bold}
+textarea {
+  display:block;width:100%;min-height:150px;
+  resize:vertical;border:1px solid var(--line);
+  border-radius:10px;padding:14px;
+  outline:none;font-size:13px;line-height:1.8;
+  color:var(--text);
+}
+textarea:focus {border-color:var(--blue)}
+textarea::placeholder {color:#a1aaba}
+.expression {
+  padding:11px 0;border-bottom:1px solid var(--line);
+}
+.expression:last-child {border:0}
+.expression strong {font-size:12px;color:var(--navy)}
+.expression p {font-size:11px;line-height:1.6;color:var(--muted);margin:5px 0}
+.expression button {
+  border:0;background:none;color:var(--blue);
+  font-size:10px;padding:5px 0;
+}
+.metric-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.metric {
+  background:#f5f7fb;border-radius:9px;
+  padding:13px 9px;text-align:center;
+}
+.metric strong {display:block;font-size:22px;color:var(--navy)}
+.metric span {font-size:10px;color:var(--muted)}
+.metric p {font-size:9px;color:var(--muted);margin:5px 0 0}
+.feedback-section {margin-top:18px}
+.feedback-section h4 {font-size:12px;color:var(--navy);margin:0 0 9px}
+.feedback-section ul {list-style:none;margin:0;padding:0}
+.feedback-section li {
+  padding:9px 0;border-bottom:1px solid var(--line);
+  font-size:11px;line-height:1.7;
+}
+.feedback-section li:last-child {border:0}
+.feedback {display:none}
+.feedback.show {display:block}
+.callout {
+  background:#edf3ff;padding:13px;border-radius:9px;
+  font-size:11px;line-height:1.8;margin-top:12px;
+}
+.comparison {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;margin-top:12px;
+}
+.compare-card {padding:12px;background:#f5f7fb;border-radius:9px}
+.compare-card strong {font-size:11px;color:var(--navy)}
+.compare-card p {font-size:11px;color:#647187;line-height:1.6}
+.progress-bar {height:7px;background:#edf0f5;border-radius:10px;overflow:hidden}
+.progress-fill {height:100%;width:0;background:var(--blue);transition:.3s}
+.progress-info {
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--muted);margin-bottom:8px;
+}
+.record-item {
+  padding:10px 0;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:8px;
+  font-size:11px;line-height:1.6;
+}
+.record-item strong {color:var(--navy)}
+.disclaimer {
+  font-size:10px;color:var(--muted);line-height:1.7;
+  margin-top:12px;
+}
+footer {text-align:center;color:#a3adba;font-size:10px;margin-top:25px}
+.hidden {display:none!important}
+@media(max-width:820px) {
+  .layout {grid-template-columns:1fr}
+  .sidebar {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .sidebar .panel {margin-bottom:0}
+}
+@media(max-width:540px) {
+  .app {padding:14px 11px 35px}
+  .hero {padding:19px}
+  .hero h2 {font-size:20px}
+  .panel {padding:15px}
+  .photo {height:235px}
+  .level-grid {grid-template-columns:repeat(2,1fr)}
+  .sidebar {display:block}
+  .sidebar .panel {margin-bottom:14px}
+  .metric-grid {grid-template-columns:repeat(2,1fr)}
+  .variable-grid {grid-template-columns:1fr}
+  .controls .btn {flex:1}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">O</div>
+    <div>
+      <h1>OPIC Cognitive Trainer</h1>
+      <p>COGNITION · TASK · SPEAKING</p>
+    </div>
+  </div>
+  <div class="level-badge">IM3 TRAINING</div>
+</header>
+
+<section class="hero">
+  <div>
+    <h2>Think deeper. Speak better.</h2>
+    <p>One picture. Different cognitive tasks.<br>
+    Develop your English speaking skills step by step.</p>
+  </div>
+  <div class="hero-stat">
+    <strong id="completedCount">0</strong>
+    <span>SAVED ATTEMPTS</span>
+  </div>
+</section>
+
+<div class="layout">
+<main>
+
+<!-- TOPIC -->
+<section class="panel">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">01 · TOPIC SELECTION</div>
+      <h3>Select a speaking topic</h3>
+    </div>
+    <span class="tag">Picture-based</span>
+  </div>
+  <div class="topic-list" id="topicButtons"></div>
+</section>
+
+<!-- PICTURE -->
+<section class="panel">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">02 · VISUAL INPUT</div>
+      <h3 id="topicTitle">Hiking</h3>
+    </div>
+    <span class="tag">Real-life photograph</span>
+  </div>
+
+  <div class="photo-wrap">
+    <img id="topicPhoto" class="photo" src="" alt="Speaking prompt">
+    <div class="photo-label" id="photoLabel">Hiking</div>
+  </div>
+  <p class="small" style="margin-top:10px">
+    Observe the picture carefully. Use it as a starting point for your speaking task.
+  </p>
+</section>
+
+<!-- COGNITIVE LEVEL -->
+<section class="panel">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">03 · COGNITIVE TASK COMPLEXITY</div>
+      <h3>Choose your cognitive task</h3>
+    </div>
+    <span class="tag">Level 1–4</span>
+  </div>
+
+  <div class="level-grid" id="levelButtons"></div>
+
+  <div class="level-description">
+    <strong id="levelName">Describe · Basic observation</strong>
+    <p id="levelExplanation"></p>
+    <div class="tags" id="levelTags" style="margin-top:10px"></div>
+  </div>
+</section>
+
+<!-- VARIABLES -->
+<section class="panel">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">04 · TASK DESIGN VARIABLES</div>
+      <h3>Adjust cognitive demands</h3>
+    </div>
+  </div>
+
+  <div class="variable-grid">
+    <div class="variable">
+      <label for="elements">Number of elements</label>
+      <select id="elements">
+        <option value="one">One element</option>
+        <option value="multiple" selected>Multiple elements</option>
+      </select>
+      <small>One person or object vs. several people, objects or events.</small>
+    </div>
+
+    <div class="variable">
+      <label for="reasoning">Reasoning demands</label>
+      <select id="reasoning">
+        <option value="low">Low · Describe facts</option>
+        <option value="medium" selected>Medium · Explain reasons</option>
+        <option value="high">High · Compare and infer</option>
+      </select>
+      <small>How much reasoning and inference the task requires.</small>
+    </div>
+
+    <div class="variable">
+      <label for="distance">Temporal / spatial distance</label>
+      <select id="distance">
+        <option value="here">Here and now</option>
+        <option value="distant" selected>Past or hypothetical</option>
+      </select>
+      <small>Describe the visible situation or move beyond the immediate context.</small>
+    </div>
+
+    <div class="variable">
+      <label for="planning">Planning time</label>
+      <select id="planning">
+        <option value="20">20 seconds · Limited</option>
+        <option value="40" selected>40 seconds · Moderate</option>
+        <option value="60">60 seconds · Extended</option>
+      </select>
+      <small>Planning time changes the resources available before speaking.</small>
+    </div>
+  </div>
+
+  <p class="disclaimer">
+    Resource-directing and resource-dispersing variables are conceptually different.
+    These controls are instructional manipulations, not a validated complexity scale.
+  </p>
+</section>
+
+<!-- TASK -->
+<section class="panel">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">05 · SPEAKING TASK</div>
+      <h3 id="taskHeading">Describe the picture</h3>
+    </div>
+    <span class="tag" id="taskLevel">LEVEL 1</span>
+  </div>
+
+  <div class="question">
+    <div class="eyebrow">YOUR TASK</div>
+    <h3 id="questionText"></h3>
+    <p id="questionHint"></p>
+    <div class="tags" id="taskTags"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn light" id="previousLevel">← Previous</button>
+    <button class="btn primary" id="nextLevel">Next Level →</button>
+    <button class="btn outline" id="randomTopic">Random Topic</button>
+  </div>
+</section>
+
+<!-- SPEAKING -->
+<section class="panel">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">06 · SPEAKING PERFORMANCE</div>
+      <h3>Prepare and speak</h3>
+    </div>
+    <span class="tag">Record your response</span>
+  </div>
+
+  <div class="timer-box">
+    <div>
+      <span id="timerLabel">Preparation time</span>
+      <strong id="timerDisplay">00:40</strong>
+    </div>
+    <div class="timer-actions">
+      <button class="btn light" id="prepBtn">Prepare</button>
+      <button class="btn dark" id="speakBtn">Speak 90s</button>
+    </div>
+  </div>
+
+  <div class="mic-row">
+    <span class="mic-status" id="micStatus">● Ready to practice</span>
+    <div class="timer-actions">
+      <button class="btn outline" id="recordBtn">● Record</button>
+      <button class="btn outline" id="stopBtn" disabled>Stop</button>
+      <button class="btn light" id="playBtn" disabled>▶ Play</button>
+    </div>
+  </div>
+
+  <audio id="audioPlayer" controls
+  style="display:none;width:100%;height:36px;margin-bottom:12px"></audio>
+
+  <textarea id="answer" placeholder="Speak in English or type your response here.
+
+Try to:
+1. Respond directly to the task.
+2. Add details and examples.
+3. Connect your ideas.
+4. Explain your reasons and feelings."></textarea>
+
+  <div class="controls">
+    <button class="btn primary" id="analyzeBtn">Analyze My Performance →</button>
+    <button class="btn light" id="clearBtn">Clear Answer</button>
+  </div>
+
+  <p class="disclaimer">
+    Voice recognition depends on browser support. Audio recording and speech-to-text
+    are separate features. You can also type your answer manually.
+  </p>
+</section>
+
+<!-- ANALYSIS -->
+<section class="panel feedback" id="feedbackPanel">
+  <div class="heading">
+    <div>
+      <div class="eyebrow">07 · CAF PERFORMANCE ANALYSIS</div>
+      <h3>Your speaking performance</h3>
+    </div>
+    <span class="tag">Learning feedback</span>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <strong id="wordCount">0</strong>
+      <span>Word count</span>
+      <p>Output length</p>
+    </div>
+    <div class="metric">
+      <strong id="lexical">0%</strong>
+      <span>Lexical diversity</span>
+      <p>Type-token ratio</p>
+    </div>
+    <div class="metric">
+      <strong id="meanLength">0</strong>
+      <span>Mean sentence length</span>
+      <p>Words per sentence</p>
+    </div>
+    <div class="metric">
+      <strong id="connectors">0</strong>
+      <span>Connectors</span>
+      <p>Discourse markers</p>
+    </div>
+    <div class="metric">
+      <strong id="errors">0</strong>
+      <span>Grammar flags</span>
+      <p>Rule-based indicators</p>
+    </div>
+    <div class="metric">
+      <strong id="wpm">—</strong>
+      <span>Words per minute</span>
+      <p>Estimated speech rate</p>
+    </div>
+  </div>
+
+  <div class="feedback-section">
+    <h4>Complexity · Language development</h4>
+    <ul id="complexityFeedback"></ul>
+  </div>
+
+  <div class="feedback-section">
+    <h4>Accuracy · Grammar indicators</h4>
+    <ul id="accuracyFeedback"></ul>
+  </div>
+
+  <div class="feedback-section">
+    <h4>Fluency · Speech performance</h4>
+    <ul id="fluencyFeedback"></ul>
+  </div>
+
+  <div class="feedback-section">
+    <h4>Task achievement</h4>
+    <ul id="taskFeedback"></ul>
+  </div>
+
+  <div class="callout" id="nextSuggestion"></div>
+
+  <div class="controls">
+    <button class="btn primary" id="saveBtn">Save Attempt</button>
+    <button class="btn dark" id="repeatBtn">Repeat Same Task</button>
+    <button class="btn light" id="compareBtn">Compare Attempts</button>
+  </div>
+
+  <div id="comparison" class="hidden"></div>
+</section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<section class="panel">
+  <div class="heading"><h3>Useful Expressions</h3></div>
+  <div id="expressions"></div>
+</section>
+
+<section class="panel">
+  <div class="heading"><h3>Task Progression</h3></div>
+  <div class="progress-info">
+    <span>Saved attempts</span>
+    <strong id="progressText">0 / 10</strong>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <p class="small">Complete different cognitive tasks and compare your performance.</p>
+</section>
+
+<section class="panel">
+  <div class="heading"><h3>Recent Practice</h3></div>
+  <div id="history">
+    <p class="small">Your saved practice records will appear here.</p>
+  </div>
+  <button class="btn light" id="clearHistory" style="width:100%;margin-top:12px">
+    Clear History
+  </button>
+</section>
+
+<section class="panel">
+  <div class="heading"><h3>Learning Principles</h3></div>
+
+  <div class="expression">
+    <strong>Resource-directing</strong>
+    <p>Increase reasoning, number of elements, and temporal or spatial distance.</p>
+  </div>
+
+  <div class="expression">
+    <strong>Resource-dispersing</strong>
+    <p>Adjust planning time and the demands placed on limited cognitive resources.</p>
+  </div>
+
+  <div class="expression">
+    <strong>Task repetition</strong>
+    <p>Repeat the same task and observe changes in language performance.</p>
+  </div>
+
+  <div class="expression">
+    <strong>CAF framework</strong>
+    <p>Examine complexity, accuracy, and fluency as separate dimensions.</p>
+  </div>
+</section>
+
+</aside>
+</div>
+
+<footer>
+OPIC COGNITIVE SPEAKING TRAINER · THEORY-INFORMED LEARNING DESIGN
+</footer>
+</div>
+
+<script>
+// ======================================================
+// 1. TOPIC DATA
+// ======================================================
+
+const topics = [
+{
+ name:"Hiking",
+ image:"https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=1200&q=85",
+ expressions:[
+  ["go hiking","I usually go hiking on weekends.","주말에 보통 등산을 해요."],
+  ["clear my mind","Hiking helps me clear my mind.","등산은 머리를 식히는 데 도움이 돼요."],
+  ["be surrounded by nature","I enjoy being surrounded by nature.","자연에 둘러싸여 있는 것을 좋아해요."],
+  ["take a break from","It helps me take a break from my routine.","일상에서 벗어나 쉬게 해줘요."],
+  ["reach the top","It feels great when I reach the top.","정상에 도착하면 기분이 좋아요."]
+ ],
+ tasks:[
+  {
+   title:"Describe the picture",
+   question:"Look at the picture. What can you see? Describe the people, the place, and the activities.",
+   hint:"Focus on visible information. Describe people, objects, actions and surroundings.",
+   tags:["Observation","Description","Basic vocabulary"],
+   name:"Basic observation"
+  },
+  {
+   title:"Explain your reasons",
+   question:"Why do people enjoy hiking? Explain the benefits of hiking and how it can affect people's daily lives.",
+   hint:"Think about physical health, mental health and personal reasons.",
+   tags:["Reasons","Cause and effect","Explanation"],
+   name:"Reasoning and explanation"
+  },
+  {
+   title:"Compare and evaluate",
+   question:"Compare hiking alone with hiking in a group. What are the advantages and disadvantages of each? Which would you recommend?",
+   hint:"Compare different factors and support your opinion with reasons.",
+   tags:["Comparison","Evaluation","Multiple factors"],
+   name:"Comparison and evaluation"
+  },
+  {
+   title:"Narrate and reflect",
+   question:"Imagine you went hiking with a friend and suddenly got lost. Describe what happened, how you solved the problem, and what you learned from the experience.",
+   hint:"Create a connected story with a beginning, problem, solution and reflection.",
+   tags:["Narration","Problem solving","Reflection"],
+   name:"Narration and reflection"
+  }
+ ]
+},
+{
+ name:"Travel",
+ image:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85",
+ expressions:[
+  ["take a trip","I took a trip to the beach last summer.","지난 여름 해변으로 여행을 갔어요."],
+  ["get away from","I wanted to get away from my busy routine.","바쁜 일상에서 벗어나고 싶었어요."],
+  ["try local food","We tried some delicious local food.","맛있는 현지 음식을 먹어봤어요."],
+  ["make memories","We made a lot of great memories.","좋은 추억을 많이 만들었어요."],
+  ["look forward to","I'm looking forward to my next trip.","다음 여행이 기대돼요."]
+ ],
+ tasks:[
+  {
+   title:"Describe the destination",
+   question:"Look at the picture. Describe the destination and the activities people might enjoy there.",
+   hint:"Describe the location, scenery, weather and possible activities.",
+   tags:["Observation","Location","Description"],
+   name:"Basic observation"
+  },
+  {
+   title:"Explain travel preferences",
+   question:"Why do people travel to different places? Explain the benefits of traveling and what makes a trip enjoyable.",
+   hint:"Consider relaxation, cultural experiences and personal growth.",
+   tags:["Reasons","Explanation","Benefits"],
+   name:"Reasoning and explanation"
+  },
+  {
+   title:"Compare travel styles",
+   question:"Compare traveling independently with joining a guided tour. Which would you prefer and why?",
+   hint:"Consider flexibility, cost, convenience and personal preferences.",
+   tags:["Comparison","Evaluation","Multiple factors"],
+   name:"Comparison and evaluation"
+  },
+  {
+   title:"Narrate a memorable trip",
+   question:"Describe a memorable trip you took. Talk about an unexpected event, how you handled it, and why the experience was meaningful.",
+   hint:"Organize your story in chronological order and explain your feelings.",
+   tags:["Past experience","Narration","Reflection"],
+   name:"Narration and reflection"
+  }
+ ]
+},
+{
+ name:"Exercise",
+ image:"https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=1200&q=85",
+ expressions:[
+  ["work out regularly","I try to work out regularly.","규칙적으로 운동하려고 해요."],
+  ["stay in shape","I exercise to stay in shape.","건강을 유지하려고 운동해요."],
+  ["relieve stress","Exercise helps me relieve stress.","운동은 스트레스 해소에 도움이 돼요."],
+  ["build up stamina","I want to build up my stamina.","체력을 기르고 싶어요."],
+  ["stick to a routine","It's hard to stick to a routine.","규칙적인 생활을 유지하기 어려워요."]
+ ],
+ tasks:[
+  {
+   title:"Describe the activity",
+   question:"Look at the picture. Describe the exercise, the surroundings and what the person is doing.",
+   hint:"Focus on visible actions and objects.",
+   tags:["Observation","Actions","Vocabulary"],
+   name:"Basic observation"
+  },
+  {
+   title:"Explain the benefits",
+   question:"How can regular exercise improve people's physical and mental health? Give specific reasons.",
+   hint:"Explain the relationship between exercise, health and stress.",
+   tags:["Cause and effect","Explanation","Health"],
+   name:"Reasoning and explanation"
+  },
+  {
+   title:"Compare exercise options",
+   question:"Compare exercising at home with exercising outdoors. Which option is better for different people?",
+   hint:"Think about convenience, motivation, cost and environment.",
+   tags:["Comparison","Evaluation","Multiple factors"],
+   name:"Comparison and evaluation"
+  },
+  {
+   title:"Narrate a personal experience",
+   question:"Describe a time when you tried to develop a new exercise habit but faced difficulties. What happened and how did you deal with it?",
+   hint:"Describe the challenge, your response, and the result.",
+   tags:["Past experience","Problem solving","Reflection"],
+   name:"Narration and reflection"
+  }
+ ]
+},
+{
+ name:"Restaurants",
+ image:"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85",
+ expressions:[
+  ["eat out","I enjoy eating out with my friends.","친구들과 외식하는 것을 좋아해요."],
+  ["be known for","The restaurant is known for its food.","그 식당은 음식으로 유명해요."],
+  ["have a great atmosphere","It has a really nice atmosphere.","분위기가 정말 좋아요."],
+  ["go with","I usually go there with my family.","보통 가족과 함께 그곳에 가요."],
+  ["be worth visiting","It's definitely worth visiting.","방문할 가치가 충분히 있어요."]
+ ],
+ tasks:[
+  {
+   title:"Describe the restaurant",
+   question:"Look at the picture. Describe the restaurant, its atmosphere and the people who might visit it.",
+   hint:"Describe the interior, furniture, atmosphere and possible activities.",
+   tags:["Observation","Description","Setting"],
+   name:"Basic observation"
+  },
+  {
+   title:"Explain restaurant preferences",
+   question:"Why do people choose to visit certain restaurants? Explain what makes a restaurant attractive to customers.",
+   hint:"Think about food, price, service and atmosphere.",
+   tags:["Reasons","Explanation","Preferences"],
+   name:"Reasoning and explanation"
+  },
+  {
+   title:"Compare dining options",
+   question:"Compare eating at a restaurant with ordering food for delivery. What are the advantages and disadvantages of each?",
+   hint:"Compare convenience, cost, atmosphere and food quality.",
+   tags:["Comparison","Evaluation","Multiple factors"],
+   name:"Comparison and evaluation"
+  },
+  {
+   title:"Narrate a restaurant problem",
+   question:"Think about a time when you had a problem at a restaurant. Describe what happened, how you communicated with the staff and how the problem was resolved.",
+   hint:"Explain the situation, your response and the outcome.",
+   tags:["Past experience","Problem solving","Reflection"],
+   name:"Narration and reflection"
+  }
+ ]
+},
+{
+ name:"Unexpected",
+ image:"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85",
+ expressions:[
+  ["I have a reservation","I have a reservation under my name.","제 이름으로 예약했어요."],
+  ["there seems to be","There seems to be a problem with my booking.","예약에 문제가 있는 것 같아요."],
+  ["I was wondering if","I was wondering if you could check it.","확인해 주실 수 있는지 궁금합니다."],
+  ["make arrangements","Could you make other arrangements for me?","다른 조치를 해주실 수 있나요?"],
+  ["I would appreciate it","I would really appreciate your help.","도와주시면 감사하겠습니다."]
+ ],
+ tasks:[
+  {
+   title:"Describe the situation",
+   question:"Look at the picture. Describe the hotel and explain what a guest might need when checking in.",
+   hint:"Describe the place and the people involved.",
+   tags:["Observation","Description","Situation"],
+   name:"Basic observation"
+  },
+  {
+   title:"Explain possible problems",
+   question:"What kinds of problems might travelers experience at a hotel? Explain why these problems happen and how they affect guests.",
+   hint:"Think about reservations, rooms, service and communication.",
+   tags:["Cause and effect","Explanation","Problems"],
+   name:"Reasoning and explanation"
+  },
+  {
+   title:"Compare solutions",
+   question:"Imagine your hotel room is not ready. Compare waiting for another room with asking for alternative accommodation. Which would you choose and why?",
+   hint:"Consider time, convenience, cost and customer service.",
+   tags:["Comparison","Evaluation","Decision making"],
+   name:"Comparison and evaluation"
+  },
+  {
+   title:"Handle an unexpected problem",
+   question:"Imagine you arrive at a hotel, but the staff cannot find your reservation. Explain what you would say, what solutions you would suggest and how you would handle the situation.",
+   hint:"Develop a realistic problem-solving response using polite requests and explanations.",
+   tags:["Role play","Problem solving","Hypothetical situation"],
+   name:"Narration and reflection"
+  }
+ ]
+}
+];
+
+// ======================================================
+// 2. APP STATE
+// ======================================================
+
+let currentTopic=0;
+let currentLevel=0;
+let timerInterval=null;
+let remaining=40;
+let mediaRecorder=null;
+let audioChunks=[];
+let audioUrl=null;
+let recognition=null;
+let recognitionActive=false;
+let recordingStart=null;
+let recordingDuration=0;
+let latestAnalysis=null;
+let lastSavedId=null;
+
+const $=id=>document.getElementById(id);
+
+function getTask(){
+ return topics[currentTopic].tasks[currentLevel];
+}
+
+function getRecords(){
+ try{return JSON.parse(localStorage.getItem("cognitiveOpicRecords")||"[]")}
+ catch(e){return []}
+}
+
+// ======================================================
+// 3. TOPIC AND TASK RENDERING
+// ======================================================
+
+function renderTopics(){
+ $("topicButtons").innerHTML=topics.map((t,i)=>`
+  <button class="topic-btn ${i===currentTopic?'active':''}"
+   data-index="${i}">${t.name}</button>
+ `).join("");
+
+ document.querySelectorAll(".topic-btn").forEach(btn=>{
+  btn.onclick=()=>selectTopic(Number(btn.dataset.index));
+ });
+}
+
+function renderLevels(){
+ $("levelButtons").innerHTML=topics[currentTopic].tasks.map((t,i)=>`
+  <button class="level-card ${i===currentLevel?'active':''}"
+   data-level="${i}">
+   <strong>LEVEL ${i+1}</strong>
+   <span>${t.title}</span>
+   <em>${["Low","Moderate","Higher","Complex"][i]}</em>
+  </button>
+ `).join("");
+
+ document.querySelectorAll(".level-card").forEach(btn=>{
+  btn.onclick=()=>selectLevel(Number(btn.dataset.level));
+ });
+}
+
+function renderQuestion(){
+ const t=topics[currentTopic];
+ const task=getTask();
+
+ $("topicTitle").textContent=t.name;
+ $("photoLabel").textContent=t.name+" · Picture Prompt";
+
+ const photo=$("topicPhoto");
+ photo.style.display="block";
+ photo.src=t.image;
+ photo.alt=t.name+" photograph";
+ photo.onerror=()=>{
+  photo.style.display="none";
+  $("photoLabel").textContent="Image unavailable · Check internet connection";
+ };
+
+ $("taskHeading").textContent=task.title;
+ $("taskLevel").textContent="LEVEL "+(currentLevel+1);
+ $("questionText").textContent=task.question;
+ $("questionHint").textContent=task.hint;
+
+ $("taskTags").innerHTML=task.tags.map(x=>
+  `<span class="tag">${x}</span>`).join("");
+
+ const explanations=[
+  "Identify and describe visible information. The task mainly requires basic observation and retrieval of familiar vocabulary.",
+  "Explain reasons and relationships. You need to organize ideas and connect causes with effects.",
+  "Compare alternatives and make a decision. Consider several factors and support your evaluation with reasons.",
+  "Construct a connected account or hypothetical response. Organize events, explain a problem, develop a solution and reflect on the outcome."
+ ];
+
+ const names=[
+  "Describe · Basic observation",
+  "Explain · Reasoning",
+  "Compare · Evaluation",
+  "Narrate · Reflection"
+ ];
+
+ $("levelName").textContent=names[currentLevel];
+ $("levelExplanation").textContent=explanations[currentLevel];
+
+ const variableLabels=[
+  "Observation and identification",
+  "Cause and effect",
+  "Comparison and evaluation",
+  "Narration and problem solving"
+ ];
+
+ $("levelTags").innerHTML=`
+  <span class="tag">${variableLabels[currentLevel]}</span>
+  <span class="tag">${currentLevel+1} of 4</span>
+ `;
+
+ $("expressions").innerHTML=t.expressions.map((e,i)=>`
+  <div class="expression">
+   <strong>${e[0]}</strong>
+   <p>${e[1]}</p>
+   <p>${e[2]}</p>
+   <button onclick="speakExpression(${i})">▶ Listen</button>
+  </div>
+ `).join("");
+
+ const prep=Number($("planning").value);
+ $("timerLabel").textContent="Preparation time";
+ remaining=prep;
+ updateTimer();
+
+ renderLevels();
+}
+
+function selectTopic(i){
+ currentTopic=i;
+ currentLevel=0;
+ resetAnswer();
+ renderTopics();
+ renderQuestion();
+}
+
+function selectLevel(i){
+ currentLevel=i;
+ resetAnswer();
+ renderQuestion();
+}
+
+function resetAnswer(){
+ stopTimer();
+ $("answer").value="";
+ $("answer").dataset.recognized="";
+ $("feedbackPanel").classList.remove("show");
+ $("comparison").classList.add("hidden");
+ latestAnalysis=null;
+}
+
+// ======================================================
+// 4. VARIABLE CONTROLS
+// ======================================================
+
+["elements","reasoning","distance","planning"].forEach(id=>{
+ $(id).addEventListener("change",()=>{
+  if(id==="planning"){
+   remaining=Number($("planning").value);
+   updateTimer();
+  }
+ });
+});
+
+// ======================================================
+// 5. SPEECH SYNTHESIS
+// ======================================================
+
+function speakExpression(i){
+ if(!("speechSynthesis" in window)){
+  alert("Speech synthesis is not supported.");
+  return;
+ }
+ speechSynthesis.cancel();
+ const utterance=new SpeechSynthesisUtterance(
+  topics[currentTopic].expressions[i][1]
+ );
+ utterance.lang="en-US";
+ utterance.rate=.9;
+ speechSynthesis.speak(utterance);
+}
+
+// ======================================================
+// 6. TIMER
+// ======================================================
+
+function stopTimer(){
+ if(timerInterval){
+  clearInterval(timerInterval);
+  timerInterval=null;
+ }
+}
+
+function updateTimer(){
+ const m=String(Math.floor(remaining/60)).padStart(2,"0");
+ const s=String(remaining%60).padStart(2,"0");
+ $("timerDisplay").textContent=m+":"+s;
+}
+
+function startTimer(seconds,mode){
+ stopTimer();
+ remaining=seconds;
+ $("timerLabel").textContent=mode==="prep"?
+  "Preparation time":"Speaking time";
+ updateTimer();
+
+ timerInterval=setInterval(()=>{
+  remaining--;
+  updateTimer();
+
+  if(remaining<=0){
+   stopTimer();
+   $("timerLabel").textContent="Time is up!";
+   $("micStatus").textContent=mode==="prep"?
+    "● Ready to speak!":"● Speaking time finished.";
+  }
+ },1000);
+}
+
+$("prepBtn").onclick=()=>{
+ startTimer(Number($("planning").value),"prep");
+};
+
+$("speakBtn").onclick=()=>{
+ startTimer(90,"speak");
+};
+
+// ======================================================
+// 7. RECORDING AND SPEECH RECOGNITION
+// ======================================================
+
+function setupRecognition(){
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR)return null;
+
+ const r=new SR();
+ r.lang="en-US";
+ r.continuous=true;
+ r.interimResults=true;
+
+ r.onresult=e=>{
+  let finalText="";
+  let interim="";
+
+  for(let i=0;i<e.results.length;i++){
+   const transcript=e.results[i][0].transcript;
+   if(e.results[i].isFinal)finalText+=transcript+" ";
+   else interim+=transcript;
+  }
+
+  const box=$("answer");
+  if(finalText){
+   box.dataset.recognized=(box.dataset.recognized||"")+finalText;
+  }
+  box.value=(box.dataset.recognized||"")+interim;
+ };
+
+ r.onerror=e=>{
+  $("micStatus").textContent="● Recognition: "+e.error;
+ };
+
+ r.onend=()=>{recognitionActive=false};
+ return r;
+}
+
+$("recordBtn").onclick=async()=>{
+ if(!navigator.mediaDevices||!window.MediaRecorder){
+  alert("Recording is unavailable. Use Chrome or Edge with HTTPS or localhost.");
+  return;
+ }
+
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  audioChunks=[];
+  recordingStart=Date.now();
+  recordingDuration=0;
+
+  mediaRecorder=new MediaRecorder(stream);
+
+  mediaRecorder.ondataavailable=e=>{
+   if(e.data.size>0)audioChunks.push(e.data);
+  };
+
+  mediaRecorder.onstop=()=>{
+   recordingDuration=(Date.now()-recordingStart)/1000;
+
+   const blob=new Blob(audioChunks,{
+    type:mediaRecorder.mimeType||"audio/webm"
+   });
+
+   if(audioUrl)URL.revokeObjectURL(audioUrl);
+   audioUrl=URL.createObjectURL(blob);
+
+   $("audioPlayer").src=audioUrl;
+   $("audioPlayer").style.display="block";
+   $("playBtn").disabled=false;
+
+   stream.getTracks().forEach(track=>track.stop());
+  };
+
+  mediaRecorder.start();
+
+  $("answer").dataset.recognized=
+   $("answer").value.trim()?
+   $("answer").value.trim()+" ":"";
+
+  recognition=setupRecognition();
+
+  if(recognition){
+   try{
+    recognition.start();
+    recognitionActive=true;
+   }catch(e){}
+  }
+
+  $("micStatus").textContent="● Recording... Speak in English.";
+  $("micStatus").classList.add("recording");
+  $("recordBtn").disabled=true;
+  $("stopBtn").disabled=false;
+
+ }catch(e){
+  alert("Please allow microphone access.");
+ }
+};
+
+$("stopBtn").onclick=()=>{
+ if(mediaRecorder&&mediaRecorder.state!=="inactive"){
+  mediaRecorder.stop();
+ }
+
+ if(recognition&&recognitionActive){
+  try{recognition.stop()}catch(e){}
+ }
+
+ recognitionActive=false;
+ $("recordBtn").disabled=false;
+ $("stopBtn").disabled=true;
+ $("micStatus").textContent="● Recording completed.";
+ $("micStatus").classList.remove("recording");
+};
+
+$("playBtn").onclick=()=>{
+ $("audioPlayer").play();
+};
+
+// ======================================================
+// 8. CAF ANALYSIS
+// ======================================================
+
+function countMatches(text,patterns){
+ return patterns.filter(p=>new RegExp(p,"i").test(text)).length;
+}
+
+function analyzeText(raw){
+ const words=raw.toLowerCase().match(/\b[a-z]+(?:['-][a-z]+)*\b/g)||[];
+ const sentences=raw.split(/[.!?]+/).map(x=>x.trim()).filter(Boolean);
+ const count=words.length;
+
+ const unique=new Set(words);
+ const ttr=count?unique.size/count:0;
+
+ const sentenceLengths=sentences.map(s=>
+  (s.match(/\b[a-z]+(?:['-][a-z]+)*\b/gi)||[]).length
+ );
+
+ const meanLength=sentenceLengths.length?
+  sentenceLengths.reduce((a,b)=>a+b,0)/sentenceLengths.length:0;
+
+ const connectors=[
+  "because","however","although","therefore","also",
+  "actually","especially","for example","that's why",
+  "on the other hand","in addition","as a result",
+  "first","finally","after that","while","when"
+ ];
+
+ const usedConnectors=connectors.filter(x=>
+  new RegExp("\\b"+x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i").test(raw)
+ );
+
+ const subordinate=[
+  "because","although","when","while","if",
+  "since","after","before","which","who","that"
+ ];
+
+ const subordinateCount=usedCount(raw,subordinate);
+
+ const flags=[];
+
+ if(/\bi am agree\b/i.test(raw))
+  flags.push("Use 'I agree', not 'I am agree'.");
+
+ if(/\bhe go\b|\bshe go\b|\bit go\b/i.test(raw))
+  flags.push("Check third-person singular verbs: he/she/it goes.");
+
+ if(/\byesterday[^.!?]*\bgo\b/i.test(raw))
+  flags.push("Check past tense when describing yesterday.");
+
+ if(/\bmore better\b/i.test(raw))
+  flags.push("Use 'better', not 'more better'.");
+
+ if(/\bdidn't went\b|\bdid not went\b/i.test(raw))
+  flags.push("After 'didn't', use the base form of the verb.");
+
+ if(/\bpeople is\b/i.test(raw))
+  flags.push("Use 'people are', not 'people is'.");
+
+ if(/\bhe don't\b|\bshe don't\b/i.test(raw))
+  flags.push("Use 'doesn't' with he or she.");
+
+ if(/\bi have went\b/i.test(raw))
+  flags.push("Use 'I have gone' instead of 'I have went'.");
+
+ const task=getTask();
+ const topic=topics[currentTopic];
+
+ const topicKeywords={
+  Hiking:["hiking","mountain","trail","nature","walk","exercise","outdoor"],
+  Travel:["travel","trip","beach","hotel","vacation","flight","destination"],
+  Exercise:["exercise","workout","running","health","fitness","body","stress"],
+  Restaurants:["restaurant","food","meal","dinner","service","menu","eat"],
+  Unexpected:["hotel","reservation","room","problem","staff","booking","solution"]
+ };
+
+ const relevant=topicKeywords[topic.name]||[];
+ const matched=relevant.filter(w=>new RegExp("\\b"+w+"\\b","i").test(raw));
+
+ return {
+  words:count,
+  sentences:sentences.length,
+  lexical:Math.round(ttr*100),
+  meanLength:Number(meanLength.toFixed(1)),
+  connectors:usedConnectors.length,
+  subordinate:subordinateCount,
+  flags,
+  matched:matched.length,
+  relevant:relevant.length,
+  usedConnectors,
+  sentenceLengths,
+  uniqueWords:unique.size
+ };
+}
+
+function usedCount(text,terms){
+ return terms.filter(x=>new RegExp("\\b"+x+"\\b","i").test(text)).length;
+}
+
+function addFeedback(id,items){
+ $(id).innerHTML=items.map(x=>`<li>• ${x}</li>`).join("");
+}
+
+function analyzeAnswer(){
+ const raw=$("answer").value.trim();
+
+ if(!raw){
+  alert("Please speak or type your answer first.");
+  return;
+ }
+
+ const a=analyzeText(raw);
+ const hasRecording=recordingDuration>0;
+ const wpm=hasRecording?
+  Math.round(a.words/(recordingDuration/60)):null;
+
+ $("wordCount").textContent=a.words;
+ $("lexical").textContent=a.lexical+"%";
+ $("meanLength").textContent=a.meanLength;
+ $("connectors").textContent=a.connectors;
+ $("errors").textContent=a.flags.length;
+ $("wpm").textContent=wpm===null?"—":wpm;
+
+ // Complexity
+ let c=[];
+
+ c.push("Your response contains "+a.words+
+  " words and "+a.sentences+" complete sentence units.");
+
+ c.push("Lexical diversity (type-token ratio): "+
+  a.lexical+"%. This measure is sensitive to response length.");
+
+ c.push("Mean sentence length: "+a.meanLength+
+  " words. Longer sentences do not automatically indicate better language performance.");
+
+ c.push("Subordination indicators: "+a.subordinate+
+  ". These are preliminary indicators of clause complexity, not a complete syntactic analysis.");
+
+ if(a.connectors<2)
+  c.push("Try connecting your ideas with a wider range of discourse markers.");
+ else
+  c.push("You used several discourse markers. Check whether each one connects ideas naturally.");
+
+ addFeedback("complexityFeedback",c);
+
+ // Accuracy
+ let ac=[];
+
+ if(a.flags.length){
+  a.flags.forEach(x=>ac.push(x));
+ }else{
+  ac.push("No predefined grammar patterns were flagged.");
+ }
+
+ ac.push("Automated grammar flags cover only a small number of common patterns. They cannot identify all grammatical errors.");
+
+ addFeedback("accuracyFeedback",ac);
+
+ // Fluency
+ let f=[];
+
+ if(wpm===null){
+  f.push("Record your answer to estimate words per minute.");
+ }else{
+  f.push("Estimated speech rate: "+wpm+" words per minute.");
+  f.push("Speech rate alone does not measure fluency. Pauses, hesitation, rhythm and repair behavior should also be considered.");
+ }
+
+ f.push("Listen to your recording and notice long pauses, repeated words and unfinished sentences.");
+
+ addFeedback("fluencyFeedback",f);
+
+ // Task achievement
+ let tf=[];
+
+ tf.push("Topic-related vocabulary indicators: "+a.matched+
+  " of "+a.relevant+" predefined words.");
+
+ if(currentLevel===0){
+  tf.push("Check whether you described the main visible people, objects and actions.");
+ }else if(currentLevel===1){
+  tf.push("Check whether you explained reasons and developed cause-and-effect relationships.");
+ }else if(currentLevel===2){
+  tf.push("Check whether you compared alternatives and supported your evaluation with reasons.");
+ }else{
+  tf.push("Check whether your response included a situation, development, solution and reflection.");
+ }
+
+ tf.push("Keyword matching is a rough indicator. A complete semantic assessment requires deeper language analysis.");
+
+ addFeedback("taskFeedback",tf);
+
+ const suggestions=[
+  "Add more relevant details to your description.",
+  "Develop your reasons using because, since and as a result.",
+  "Compare two alternatives using whereas, while and on the other hand.",
+  "Organize your story with first, then, eventually and looking back."
+ ];
+
+ $("nextSuggestion").innerHTML=
+  "<strong>Suggested improvement:</strong><br>"+
+  suggestions[currentLevel]+
+  "<br><br><strong>Task variable profile:</strong> "+
+  $("elements").selectedOptions[0].text+" · "+
+  $("reasoning").selectedOptions[0].text+" · "+
+  $("distance").selectedOptions[0].text+" · "+
+  $("planning").value+" seconds planning.";
+
+ latestAnalysis={
+  topic:topics[currentTopic].name,
+  level:currentLevel+1,
+  task:getTask().title,
+  answer:raw,
+  date:new Date().toLocaleString(),
+  metrics:a,
+  wpm:wpm,
+  recordingDuration:recordingDuration,
+  variables:{
+   elements:$("elements").value,
+   reasoning:$("reasoning").value,
+   distance:$("distance").value,
+   planning:$("planning").value
+  }
+ };
+
+ $("feedbackPanel").classList.add("show");
+ $("feedbackPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+$("analyzeBtn").onclick=analyzeAnswer;
+
+// ======================================================
+// 9. SAVE AND COMPARE TASK REPETITION
+// ======================================================
+
+function saveAttempt(){
+ if(!latestAnalysis){
+  alert("Analyze your answer first.");
+  return;
+ }
+
+ const records=getRecords();
+ const entry={
+  ...latestAnalysis,
+  id:Date.now()
+ };
+
+ records.push(entry);
+
+ try{
+  localStorage.setItem("cognitiveOpicRecords",JSON.stringify(records));
+ }catch(e){
+  alert("Storage is full. Please clear some saved practice records.");
+  return;
+ }
+
+ lastSavedId=entry.id;
+ loadHistory();
+ $("saveBtn").textContent="✓ Saved";
+ setTimeout(()=>$("saveBtn").textContent="Save Attempt",1500);
+}
+
+$("saveBtn").onclick=saveAttempt;
+
+$("repeatBtn").onclick=()=>{
+ if(!latestAnalysis){
+  alert("Analyze your answer before repeating the task.");
+  return;
+ }
+
+ $("answer").value="";
+ $("answer").dataset.recognized="";
+ $("feedbackPanel").classList.remove("show");
+ latestAnalysis=null;
+ recordingDuration=0;
+ startTimer(Number($("planning").value),"prep");
+ $("answer").focus();
+};
+
+$("compareBtn").onclick=()=>{
+ const records=getRecords();
+
+ const matches=records.filter(r=>
+  r.topic===topics[currentTopic].name&&
+  r.level===currentLevel+1
+ );
+
+ if(matches.length<2){
+  alert("Save at least two attempts for this topic and task level to compare performance.");
+  return;
+ }
+
+ const first=matches[matches.length-2];
+ const second=matches[matches.length-1];
+
+ const m1=first.metrics;
+ const m2=second.metrics;
+
+ const comparison=$("comparison");
+ comparison.classList.remove("hidden");
+
+ comparison.innerHTML=`
+  <h4 style="font-size:13px;margin:15px 0 5px">Task Repetition Comparison</h4>
+  <p class="small">Same topic: ${escapeHTML(first.topic)} · Level ${first.level}</p>
+
+  <div class="comparison">
+   <div class="compare-card">
+    <strong>FIRST ATTEMPT</strong>
+    <p>${m1.words} words<br>
+    ${m1.lexical}% lexical diversity<br>
+    ${m1.meanLength} words/sentence<br>
+    ${m1.connectors} connectors</p>
+   </div>
+   <div class="compare-card">
+    <strong>SECOND ATTEMPT</strong>
+    <p>${m2.words} words<br>
+    ${m2.lexical}% lexical diversity<br>
+    ${m2.meanLength} words/sentence<br>
+    ${m2.connectors} connectors</p>
+   </div>
+  </div>
+
+  <div class="callout">
+   <strong>Changes between attempts</strong><br>
+   Word count: ${signed(m2.words-m1.words)}<br>
+   Lexical diversity: ${signed(m2.lexical-m1.lexical)} percentage points<br>
+   Mean sentence length: ${signed(m2.meanLength-m1.meanLength)}<br>
+   Connectors: ${signed(m2.connectors-m1.connectors)}<br><br>
+   These changes describe differences in performance, not proof of improvement in every dimension.
+  </div>
+ `;
+
+ comparison.scrollIntoView({behavior:"smooth",block:"nearest"});
+};
+
+function signed(n){
+ return (n>0?"+":"")+n;
+}
+
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ }[c]));
+}
+
+// ======================================================
+// 10. HISTORY AND PROGRESS
+// ======================================================
+
+function loadHistory(){
+ const records=getRecords();
+
+ $("completedCount").textContent=records.length;
+ $("progressText").textContent=Math.min(records.length,10)+" / 10";
+ $("progressFill").style.width=Math.min(records.length*10,100)+"%";
+
+ if(!records.length){
+  $("history").innerHTML='<p class="small">Your saved practice records will appear here.</p>';
+  return;
+ }
+
+ $("history").innerHTML=records.slice(-7).reverse().map(r=>`
+  <div class="record-item">
+   <div>
+    <strong>${escapeHTML(r.topic)} · L${r.level}</strong><br>
+    <span style="color:#8994a5">${r.metrics.words} words · ${escapeHTML(r.date)}</span>
+   </div>
+   <span>${r.metrics.connectors} connectors</span>
+  </div>
+ `).join("");
+}
+
+$("clearHistory").onclick=()=>{
+ if(confirm("Delete all saved practice records?")){
+  localStorage.removeItem("cognitiveOpicRecords");
+  loadHistory();
+  $("comparison").classList.add("hidden");
+ }
+};
+
+// ======================================================
+// 11. NAVIGATION
+// ======================================================
+
+$("previousLevel").onclick=()=>{
+ if(currentLevel>0)selectLevel(currentLevel-1);
+};
+
+$("nextLevel").onclick=()=>{
+ if(currentLevel<3)selectLevel(currentLevel+1);
+ else{
+  alert("You have reached the final cognitive task level.");
+ }
+};
+
+$("randomTopic").onclick=()=>{
+ let next=Math.floor(Math.random()*topics.length);
+ if(next===currentTopic)next=(next+1)%topics.length;
+ selectTopic(next);
+};
+
+$("clearBtn").onclick=()=>{
+ resetAnswer();
+};
+
+renderTopics();
+renderQuestion();
+loadHistory();
+updateTimer();
+
+</script>
+</body>
+</html>
